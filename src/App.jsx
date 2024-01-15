@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./App.css";
 import NewProject from "./components/NewProject.jsx";
 import NoProjectSelected from "./components/NoProjectSelected.jsx";
-import Sibar from "./components/Sibar.jsx";
 import SelectedProject from "./components/SelectedProject.jsx";
+import Sibar from "./components/Sibar.jsx";
 
 function App() {
   // const [showNewProject, setShowNewProject] = useState(false);
@@ -69,11 +69,25 @@ function App() {
 
   console.log(projectsState);
 
+  const handleDeleteProject = () => {
+    setProjectsState((prevState) => {
+      return {
+        ...prevState,
+        selectedProjectId: undefined,
+        projects: prevState.projects.filter(
+          (project) => project.id !== prevState.selectedProjectId
+        ),
+      };
+    });
+  };
+
   const selectedProject = projectsState.projects.find(
     (project) => project.id === projectsState.selectedProjectId
   );
 
-  let content = <SelectedProject project={selectedProject} />;
+  let content = (
+    <SelectedProject project={selectedProject} onDelete={handleDeleteProject} />
+  );
 
   if (projectsState.selectedProjectId === null) {
     content = (
